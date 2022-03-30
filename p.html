@@ -1,17 +1,71 @@
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
    "http://www.w3.org/TR/html4/strict.dtd">
 <HTML>
-   <HEAD>
-      <TITLE>My first HTML document</TITLE>
-   </HEAD>
+    <head>
+        <meta charset="utf-8">
+        <title>Геолокация</title>
+        <link rel="stylesheet" href="pro.css">
+        <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
+        
+    </head>
    <BODY>
-    <nav>
-        <ul>
-          <li><a href="#">Navigation</a></li>
-          <li><a href="#">Menu</a></li>
-          <li><a href="#">Links</a></li>
-        </ul>
-      </nav>
-      <P>Hello world!
+       <div id="naviga">
+            <nav>
+                <ul>
+                <li><a href="">Mapa</a></li>
+                <li><a href="#">SOS</a></li>
+                </ul>
+            </nav>
+       </div>
+       
+        <div id="sss">
+            <p id="result">gdzie jesteś?</p>
+            <div id="mapSurface"></div>
+        </body>
+        
+
+        <div id='mapa' style>
+            <p>my map</p>
+        </div>
+      <script>
+        var results;
+        var map;
+
+        window.onload = function() {
+            result = document.getElementById('result');
+        
+        // Устанавливаем некоторые параметры карты. В данном примере 
+        // устанавливаются начальный уровень масштабирования и тип карты. 
+        // Информацию о других параметрах см. в документации по Google Maps.
+        var myOptions = {
+                zoom: 13,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+        
+        // Создаем карту, используя установленные выше параметры
+        map = new google.maps.Map(document.getElementById("mapSurface"), myOptions);
+        
+        // Пытаемся определить местоположение пользователя
+        if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+                    geolocationSuccess, geolocationFailure);
+
+        result.innerHTML = "Поиск завершен";
+        }
+        else {
+        result.innerHTML = "Ваш браузер не поддерживает геолокацию";
+        goToDefaultLocation();
+        }
+        }
+
+        function geolocationSuccess(position) {
+        // Преобразуем местоположение в объект LatLng
+        var location = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+        
+        // Отображаем эту точку на карте
+        map.setCenter(location);
+}
+      </script>
    </BODY>
 </HTML>
